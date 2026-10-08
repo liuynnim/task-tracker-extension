@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Task Tracker",
+  "version": "1.0.0",
+  "description": "Tiện ích quản lý task nhanh gọn ngay trên trình duyệt",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Mở Task Tracker"
+  }
+}
