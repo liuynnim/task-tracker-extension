@@ -1,0 +1,34 @@
+.lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.lang-toggle-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+.lang-toggle-btn:active {
+  transform: scale(0.96);
+}
+
+.lang-toggle-flag {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.lang-toggle-text {
+  letter-spacing: 0.5px;
+}

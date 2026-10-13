@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useI18n } from "../../i18n/context";
 import type { Task } from "../../types/task";
 import "./TaskItem.css";
 
@@ -9,12 +10,15 @@ interface Props {
 }
 
 function TaskItem({ item, DeleteTask, setComplete }: Props) {
+  const { t, language } = useI18n();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const formatDate = (dateStr?: string) => {
-    if (!dateStr) return null;
+    if (!dateStr) return "";
     const date = new Date(isNaN(Number(dateStr)) ? dateStr : Number(dateStr));
-    return isNaN(date.getTime()) ? dateStr : date.toLocaleDateString("vi-VN");
+    return isNaN(date.getTime())
+      ? dateStr
+      : date.toLocaleDateString(language === "vi" ? "vi-VN" : "en-US");
   };
 
   return (
@@ -46,23 +50,23 @@ function TaskItem({ item, DeleteTask, setComplete }: Props) {
       {isExpanded && (
         <div className="task-details">
           <div className="detail-row">
-            <span className="detail-label">Mô tả</span>
+            <span className="detail-label">{t("taskItem.descLabel")}</span>
             {item.description ? (
               <p className="detail-content">{item.description}</p>
             ) : (
-              <p className="detail-content empty">(Không có mô tả)</p>
+              <p className="detail-content empty">{t("taskItem.noDesc")}</p>
             )}
           </div>
 
           <div className="task-meta">
             {item.dueDate && (
               <span className="task-meta-item">
-                📅 Hạn chót: <strong>{formatDate(item.dueDate)}</strong>
+                📅 {t("taskItem.dueDate", { date: formatDate(item.dueDate) })}
               </span>
             )}
             {item.createdAt && (
               <span className="task-meta-item">
-                🕒 Tạo lúc: {formatDate(item.createdAt)}
+                🕒 {t("taskItem.createdAt", { date: formatDate(item.createdAt) })}
               </span>
             )}
           </div>
@@ -77,7 +81,7 @@ function TaskItem({ item, DeleteTask, setComplete }: Props) {
                   DeleteTask(item.id);
                 }}
               >
-                Xóa công việc
+                {t("taskItem.deleteBtn")}
               </button>
             </div>
           )}

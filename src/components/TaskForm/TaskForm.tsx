@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useI18n } from "../../i18n/context";
 import type { Task } from "../../types/task";
 import "./TaskForm.css";
 
@@ -8,6 +9,7 @@ interface Props {
 }
 
 function TaskForm({ onAddTask, onCancel }: Props) {
+  const { t } = useI18n();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [dueDate, setDueDate] = useState<string>("");
@@ -16,14 +18,11 @@ function TaskForm({ onAddTask, onCancel }: Props) {
     description: string;
     dueDate: string;
   }>({ title: "", description: "", dueDate: "" });
+
   const addTask = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      setError(
-        (prev: { title: string; description: string; dueDate: string }) => {
-          return { ...prev, title: "Title is required" };
-        },
-      );
+      setError((prev) => ({ ...prev, title: t("taskForm.titleError") }));
       return;
     }
     const newTask: Task = {
@@ -40,6 +39,7 @@ function TaskForm({ onAddTask, onCancel }: Props) {
     setDueDate("");
     setError({ title: "", description: "", dueDate: "" });
   };
+
   return (
     <div className="task-form-container">
       <div
@@ -51,7 +51,7 @@ function TaskForm({ onAddTask, onCancel }: Props) {
         }}
       >
         <h3 className="task-form-heading" style={{ margin: 0 }}>
-          Tạo công việc mới
+          {t("taskForm.heading")}
         </h3>
         {onCancel && (
           <button
@@ -66,19 +66,19 @@ function TaskForm({ onAddTask, onCancel }: Props) {
               padding: "4px 8px",
             }}
           >
-            ← Quay lại
+            {t("taskForm.back")}
           </button>
         )}
       </div>
       <form className="task-form" onSubmit={addTask}>
         <div className="form-field">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">{t("taskForm.titleLabel")}</label>
           <input
             id="title"
             type="text"
             className={`form-input ${error.title ? "has-error" : ""}`}
             value={title}
-            placeholder="Nhập tên công việc..."
+            placeholder={t("taskForm.titlePlaceholder")}
             autoFocus
             onChange={(e) => {
               setTitle(e.target.value);
@@ -91,12 +91,12 @@ function TaskForm({ onAddTask, onCancel }: Props) {
         </div>
 
         <div className="form-field">
-          <label htmlFor="des">Description</label>
+          <label htmlFor="des">{t("taskForm.descLabel")}</label>
           <textarea
             id="des"
             className={`form-textarea ${error.description ? "has-error" : ""}`}
             value={description}
-            placeholder="Mô tả chi tiết (tùy chọn)..."
+            placeholder={t("taskForm.descPlaceholder")}
             onChange={(e) => {
               setDescription(e.target.value);
               if (error.description) {
@@ -110,7 +110,7 @@ function TaskForm({ onAddTask, onCancel }: Props) {
         </div>
 
         <div className="form-field">
-          <label htmlFor="duaDate">Due Date</label>
+          <label htmlFor="duaDate">{t("taskForm.dueDateLabel")}</label>
           <input
             id="duaDate"
             type="date"
@@ -127,7 +127,7 @@ function TaskForm({ onAddTask, onCancel }: Props) {
         </div>
 
         <button type="submit" className="btn-submit">
-          Add Task
+          {t("taskForm.submitBtn")}
         </button>
       </form>
     </div>

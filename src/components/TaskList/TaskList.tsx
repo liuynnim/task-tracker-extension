@@ -1,5 +1,7 @@
 import type { Task } from "../../types/task";
 import TaskItem from "../TaskItem/TaskItem";
+import { useI18n } from "../../i18n/context";
+import "./TaskList.css";
 
 interface Props {
   tasks: Array<Task>;
@@ -9,56 +11,26 @@ interface Props {
 }
 
 function TaskList({ tasks, onToggle, onDelete, onAddNew }: Props) {
+  const { t } = useI18n();
+
   return (
-    <div style={{ padding: "16px", boxSizing: "border-box", textAlign: "left" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "14px",
-        }}
-      >
-        <h2 style={{ margin: 0, fontSize: "18px", color: "#111827" }}>
-          Danh sách công việc
-        </h2>
+    <div className="task-list-container">
+      <div className="task-list-header">
+        <h2 className="task-list-title">{t("taskList.title")}</h2>
         {onAddNew && (
-          <button
-            type="button"
-            onClick={onAddNew}
-            style={{
-              padding: "6px 12px",
-              fontSize: "12px",
-              backgroundColor: "#2563eb",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          >
-            + Thêm mới
+          <button type="button" onClick={onAddNew} className="btn-add-new">
+            {t("taskList.addNew")}
           </button>
         )}
       </div>
 
       {tasks.length === 0 ? (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "32px 16px",
-            color: "#6b7280",
-            fontSize: "14px",
-            border: "1px dashed #d1d5db",
-            borderRadius: "8px",
-          }}
-        >
-          <p>Chưa có công việc nào.</p>
-          <p style={{ fontSize: "12px", marginTop: "4px" }}>
-            Hãy bấm "+ Thêm mới" để tạo công việc đầu tiên!
-          </p>
+        <div className="task-list-empty">
+          <p className="task-list-empty-title">{t("taskList.empty")}</p>
+          <p className="task-list-empty-sub">{t("taskList.emptySub")}</p>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div className="task-list-items">
           {tasks.map((task) => (
             <TaskItem
               key={task.id}

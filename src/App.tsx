@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import LanguageToggle from "./components/LanguageToggle/LanguageToggle";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
+import { useI18n } from "./i18n/context";
 import { getTasks, saveTasks } from "./services/storage";
 import type { Task } from "./types/task";
 
@@ -9,6 +11,7 @@ type Tab = "List" | "New";
 type Status = "isLoading" | "isSuccess" | "isError";
 
 function App() {
+  const { t } = useI18n();
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [tab, setTab] = useState<Tab>("List");
   const [status, setStatus] = useState<Status>("isLoading");
@@ -52,15 +55,25 @@ function App() {
 
   return (
     <div className="app-container">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "10px 16px 0",
+        }}
+      >
+        <LanguageToggle />
+      </div>
+
       {status === "isLoading" && (
         <div style={{ padding: "20px", textAlign: "center" }}>
-          Đang tải dữ liệu...
+          {t("app.loading")}
         </div>
       )}
 
       {status === "isError" && (
         <div style={{ padding: "20px", textAlign: "center", color: "#ef4444" }}>
-          Có lỗi xảy ra khi tải dữ liệu!
+          {t("app.error")}
         </div>
       )}
 
