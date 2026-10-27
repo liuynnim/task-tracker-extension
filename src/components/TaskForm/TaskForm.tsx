@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { useI18n } from "../../i18n/context";
-import type { Task } from "../../types/task";
+import type { Task, TaskFormData } from "../../types/task";
 import "./TaskForm.css";
+import { useForm } from "../../RHF/useForm";
 
 interface Props {
   onAddTask?: (task: Task) => void;
@@ -10,34 +10,28 @@ interface Props {
 
 function TaskForm({ onAddTask, onCancel }: Props) {
   const { t } = useI18n();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [dueDate, setDueDate] = useState<string>("");
-  const [error, setError] = useState<{
-    title: string;
-    description: string;
-    dueDate: string;
-  }>({ title: "", description: "", dueDate: "" });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TaskFormData>({
+    defaultValues: { title: "", description: "", dueDate: "" },
+  });
 
-  const addTask = (e: React.SubmitEvent) => {
-    e.preventDefault();
-    if (!title.trim()) {
-      setError((prev) => ({ ...prev, title: t("taskForm.titleError") }));
-      return;
-    }
+  const onSubmit = (data: TaskFormData) => {
+    const timestamp = Date.now().toString();
     const newTask: Task = {
-      id: Date.now().toString(),
-      title,
-      description: description,
-      dueDate,
+      id: timestamp,
+      title: data.title,
+      description: data.description || "",
+      dueDate: data.dueDate || "",
       completed: false,
-      createdAt: Date.now().toString(),
+      createdAt: timestamp,
     };
+
     onAddTask?.(newTask);
-    setTitle("");
-    setDescription("");
-    setDueDate("");
-    setError({ title: "", description: "", dueDate: "" });
+    reset();
   };
 
   return (
@@ -70,43 +64,38 @@ function TaskForm({ onAddTask, onCancel }: Props) {
           </button>
         )}
       </div>
-      <form className="task-form" onSubmit={addTask}>
+
+      <form
+        className="task-form"
+        onSubmit={(e) => {
+          handleSubmit(onSubmit)(e);
+        }}
+      >
         <div className="form-field">
           <label htmlFor="title">{t("taskForm.titleLabel")}</label>
           <input
             id="title"
             type="text"
-            className={`form-input ${error.title ? "has-error" : ""}`}
-            value={title}
+            className={`form-input ${errors.title ? "has-error" : ""}`}
             placeholder={t("taskForm.titlePlaceholder")}
             autoFocus
-            onChange={(e) => {
-              setTitle(e.target.value);
-              if (error.title) {
-                setError((prev) => ({ ...prev, title: "" }));
-              }
-            }}
+            {...register("title", {
+              required: t("taskForm.titleError"),
+            })}
           />
-          {error.title && <span className="form-error">{error.title}</span>}
+          {errors.title && (
+            <span className="form-error">{errors.title.message}</span>
+          )}
         </div>
 
         <div className="form-field">
           <label htmlFor="des">{t("taskForm.descLabel")}</label>
           <textarea
             id="des"
-            className={`form-textarea ${error.description ? "has-error" : ""}`}
-            value={description}
+            className="form-textarea"
             placeholder={t("taskForm.descPlaceholder")}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              if (error.description) {
-                setError((prev) => ({ ...prev, description: "" }));
-              }
-            }}
+            {...register("description")}
           />
-          {error.description && (
-            <span className="form-error">{error.description}</span>
-          )}
         </div>
 
         <div className="form-field">
@@ -114,16 +103,9 @@ function TaskForm({ onAddTask, onCancel }: Props) {
           <input
             id="duaDate"
             type="date"
-            className={`form-input ${error.dueDate ? "has-error" : ""}`}
-            value={dueDate}
-            onChange={(e) => {
-              setDueDate(e.target.value);
-              if (error.dueDate) {
-                setError((prev) => ({ ...prev, dueDate: "" }));
-              }
-            }}
+            className="form-input"
+            {...register("dueDate")}
           />
-          {error.dueDate && <span className="form-error">{error.dueDate}</span>}
         </div>
 
         <button type="submit" className="btn-submit">
@@ -135,3 +117,4 @@ function TaskForm({ onAddTask, onCancel }: Props) {
 }
 
 export default TaskForm;
+
