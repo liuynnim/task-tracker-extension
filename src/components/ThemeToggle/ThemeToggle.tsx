@@ -15,7 +15,7 @@ export default function ThemeToggle() {
       type="button"
       className="theme-pill-btn"
       onClick={handleToggle}
-      title={isLight ? "Chuyển sang chế độ Tối (Dark)" : "Chuyển sang chế độ Sáng (Light)"}
+      title={isLight ? "Switch to Dark mode" : "Switch to Light mode"}
       aria-label="Toggle theme"
     >
       <span
@@ -24,7 +24,7 @@ export default function ThemeToggle() {
           e.stopPropagation();
           setTheme("light");
         }}
-        title="Chế độ Sáng (Light)"
+        title="Light mode"
       >
         ☀️
       </span>
@@ -35,7 +35,7 @@ export default function ThemeToggle() {
           e.stopPropagation();
           setTheme("dark");
         }}
-        title="Chế độ Tối (Dark)"
+        title="Dark mode"
       >
         🌙
       </span>
