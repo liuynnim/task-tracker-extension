@@ -5,27 +5,22 @@ export default function LanguageToggle() {
   const { language, changeLanguage } = useI18n();
 
   const handleToggle = () => {
-    const nextLang = language === "vi" ? "en" : "vi";
-    changeLanguage(nextLang);
+    changeLanguage(language === "vi" ? "en" : "vi");
   };
+
+  const isVi = language === "vi";
 
   return (
     <button
       type="button"
-      className="lang-toggle-btn"
+      className="lang-pill-btn"
       onClick={handleToggle}
-      title={
-        language === "vi"
-          ? "Chuyển sang Tiếng Anh (English)"
-          : "Chuyển sang Tiếng Việt"
-      }
+      title={isVi ? "Chuyển sang Tiếng Anh (EN)" : "Switch to Tiếng Việt (VN)"}
+      aria-label="Toggle language"
     >
-      <span className="lang-toggle-flag">
-        {language === "vi" ? "🇻🇳" : "🇬🇧"}
-      </span>
-      <span className="lang-toggle-text">
-        {language === "vi" ? "VI" : "EN"}
-      </span>
+      <span className={`lang-segment ${isVi ? "active" : ""}`}>VN</span>
+      <span className="lang-divider">/</span>
+      <span className={`lang-segment ${!isVi ? "active" : ""}`}>EN</span>
     </button>
   );
 }

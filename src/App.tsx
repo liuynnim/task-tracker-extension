@@ -3,6 +3,7 @@ import "./App.css";
 import LanguageToggle from "./components/LanguageToggle/LanguageToggle";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
+import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 import { useI18n } from "./i18n/context";
 import { getTasks, saveTasks } from "./services/storage";
 import type { Task } from "./types/task";
@@ -24,10 +25,11 @@ function App() {
         setTasks(data);
         setStatus("isSuccess");
       } catch (e) {
-        console.error("Lỗi khi tải danh sách task:", e);
+        console.error("Error loading task list:", e);
         setStatus("isError");
       }
     }
+
 
     loadTasks();
   }, []);
@@ -55,15 +57,15 @@ function App() {
 
   return (
     <div className="app-container">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          padding: "10px 16px 0",
-        }}
-      >
+      <div className="app-header">
+        <ThemeToggle />
         <LanguageToggle />
       </div>
+
+
+
+
+
 
       {status === "isLoading" && (
         <div style={{ padding: "20px", textAlign: "center" }}>

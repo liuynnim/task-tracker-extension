@@ -5,10 +5,10 @@ import { en } from "./locales/en";
 import { vi } from "./locales/vi";
 import type { Language, TranslationKey, TranslationParams } from "./types";
 
-// Gom 2 từ điển lại thành một kho resources
+// Bundle translations into a single resource object
 const translations = { vi, en };
 
-// Hàm tra cứu giá trị theo chuỗi
+// Lookup nested key value by dot-separated path
 function getNestedValue(obj: unknown, path: string): string | undefined {
   const result = path.split(".").reduce<unknown>((acc, part) => {
     if (acc && typeof acc === "object") {
@@ -20,7 +20,7 @@ function getNestedValue(obj: unknown, path: string): string | undefined {
   return typeof result === "string" ? result : undefined;
 }
 
-// Hàm thay thế các biến {{param}} thành giá trị truyền vào
+// Interpolate dynamic {{param}} variables
 function interpolate(text: string, params?: TranslationParams): string {
   if (!params) return text;
   return Object.entries(params).reduce((acc, [key, val]) => {
@@ -35,27 +35,27 @@ interface Props {
 export function I18nProvider({ children }: Props) {
   const [language, setLanguage] = useState<Language>("en");
 
-  // Đọc ngôn ngữ đã lưu từ storage khi ứng dụng khởi động
+  // Read saved language from storage on startup
   useEffect(() => {
     getLanguage().then((savedLang) => {
       setLanguage(savedLang);
     });
   }, []);
 
-  // Hàm chuyển đổi ngôn ngữ và lưu vào storage
+  // Switch language and persist to storage
   const changeLanguage = async (newLang: Language) => {
     setLanguage(newLang);
     await saveLanguage(newLang);
   };
 
-  // Hàm dịch văn bản
+  // Translation function
   const t = (key: TranslationKey, params?: TranslationParams): string => {
     const currentDict = translations[language];
     const fallbackDict = translations.en;
 
-    // 1. Tìm trong từ điển hiện tại
-    // 2. Nếu không có -> tìm trong từ điển tiếng Anh (fallback)
-    // 3. Nếu vẫn không có -> trả về chính key đó
+    // 1. Check in current dictionary
+    // 2. Fallback to English dictionary
+    // 3. Return raw key if not found
     const rawText =
       getNestedValue(currentDict, key) ??
       getNestedValue(fallbackDict, key) ??
@@ -63,6 +63,7 @@ export function I18nProvider({ children }: Props) {
 
     return interpolate(rawText, params);
   };
+
 
   return (
     <I18nContext.Provider

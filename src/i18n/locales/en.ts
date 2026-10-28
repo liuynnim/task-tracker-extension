@@ -27,4 +27,11 @@ export const en = {
     createdAt: "Created: {{date}}",
     deleteBtn: "Delete Task",
   },
+  theme: {
+    light: "Light",
+    dark: "Dark",
+    system: "Auto",
+    tooltip: "Theme: {{mode}} (Click to change)",
+  },
 };
+

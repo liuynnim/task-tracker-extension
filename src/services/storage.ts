@@ -1,5 +1,7 @@
 import type { Language } from "../i18n/types";
+import type { Theme } from "../theme/types";
 import type { Task } from "../types/task";
+
 
 const KEY = "task_tracker_items";
 const LANG_KEY = "task_tracker_language";
@@ -10,8 +12,8 @@ export async function getTasks(): Promise<Task[]> {
       const data = localStorage.getItem(KEY);
       return data ? JSON.parse(data) : [];
     } catch (err) {
-      console.error("Lỗi khi đọc từ localStorage:", err);
-      throw new Error("Không thể đọc dữ liệu từ localStorage", { cause: err });
+      console.error("Error reading from localStorage:", err);
+      throw new Error("Unable to read data from localStorage", { cause: err });
     }
   }
 
@@ -19,8 +21,8 @@ export async function getTasks(): Promise<Task[]> {
     const data = await chrome.storage.local.get(KEY);
     return (data[KEY] as Task[]) || [];
   } catch (err) {
-    console.error("Lỗi khi đọc từ chrome.storage:", err);
-    throw new Error(`Lỗi truy xuất Chrome Storage: ${(err as Error).message}`, {
+    console.error("Error reading from chrome.storage:", err);
+    throw new Error(`Error accessing Chrome Storage: ${(err as Error).message}`, {
       cause: err,
     });
   }
@@ -45,7 +47,7 @@ export async function getLanguage(): Promise<Language> {
     const lang = data[LANG_KEY];
     return lang === "en" || lang === "vi" ? lang : "en";
   } catch (err) {
-    console.error("Lỗi khi đọc ngôn ngữ từ chrome.storage:", err);
+    console.error("Error reading language from chrome.storage:", err);
     return "en";
   }
 }
@@ -57,3 +59,39 @@ export async function saveLanguage(lang: Language): Promise<void> {
   }
   await chrome.storage.local.set({ [LANG_KEY]: lang });
 }
+
+const THEME_KEY = "task_tracker_theme";
+
+export async function getTheme(): Promise<Theme> {
+  if (typeof chrome === "undefined" || !chrome.storage?.local) {
+    const saved = localStorage.getItem(THEME_KEY);
+    return saved === "light" || saved === "dark" || saved === "system"
+      ? saved
+      : "system";
+  }
+
+  try {
+    const data = await chrome.storage.local.get(THEME_KEY);
+    const saved = data[THEME_KEY];
+    return saved === "light" || saved === "dark" || saved === "system"
+      ? saved
+      : "system";
+  } catch (err) {
+    console.error("Error reading theme from chrome.storage:", err);
+    return "system";
+  }
+}
+
+export async function saveTheme(theme: Theme): Promise<void> {
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch (err) {
+    console.error("Error saving theme to localStorage:", err);
+  }
+
+  if (typeof chrome !== "undefined" && chrome.storage?.local) {
+    await chrome.storage.local.set({ [THEME_KEY]: theme });
+  }
+}
+
+

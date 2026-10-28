@@ -1,23 +1,23 @@
 .task-item {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--color-bg-card);
   margin-bottom: 8px;
   overflow: hidden;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
 }
 
 .task-item:hover {
-  border-color: #d1d5db;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 1px 3px var(--color-shadow);
 }
 
 .task-item.is-completed {
-  background-color: #f9fafb;
+  background-color: var(--color-bg-subtle);
   opacity: 0.85;
 }
 
-/* Phần thu gọn (Header) */
+/* Collapsed header section */
 .task-header {
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: #2563eb;
+  accent-color: var(--color-primary);
   flex-shrink: 0;
 }
 
@@ -39,7 +39,7 @@
   flex: 1;
   font-size: 14px;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0;
   word-break: break-word;
   transition: color 0.15s ease;
@@ -47,12 +47,12 @@
 
 .task-item.is-completed .task-title {
   text-decoration: line-through;
-  color: #9ca3af;
+  color: var(--color-text-disabled);
 }
 
 .expand-icon {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   transition: transform 0.2s ease;
   flex-shrink: 0;
 }
@@ -61,15 +61,16 @@
   transform: rotate(90deg);
 }
 
-/* Phần mở rộng (Chi tiết) */
+/* Expanded details section */
 .task-details {
   padding: 10px 12px 12px 38px;
-  border-top: 1px solid #f3f4f6;
-  background-color: #fafafa;
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-subtle);
   display: flex;
   flex-direction: column;
   gap: 8px;
   font-size: 13px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .detail-row {
@@ -82,13 +83,13 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--color-text-muted);
   letter-spacing: 0.03em;
 }
 
 .detail-content {
   margin: 0;
-  color: #374151;
+  color: var(--color-text-secondary);
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.4;
@@ -96,7 +97,7 @@
 
 .detail-content.empty {
   font-style: italic;
-  color: #9ca3af;
+  color: var(--color-text-disabled);
 }
 
 .task-meta {
@@ -104,7 +105,7 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 2px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 12px;
 }
 
@@ -114,8 +115,9 @@
   gap: 4px;
 }
 
-/* Nút xóa */
+/* Delete button */
 .task-actions {
+
   display: flex;
   justify-content: flex-end;
   margin-top: 4px;
@@ -123,8 +125,8 @@
 
 .btn-delete {
   background: none;
-  border: 1px solid #fca5a5;
-  color: #ef4444;
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger);
   font-size: 12px;
   padding: 4px 8px;
   border-radius: 4px;
@@ -133,56 +135,7 @@
 }
 
 .btn-delete:hover {
-  background-color: #fee2e2;
-  border-color: #ef4444;
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger);
 }
 
-/* Hỗ trợ chế độ tối (Dark mode) */
-@media (prefers-color-scheme: dark) {
-  .task-item {
-    background-color: #1f2937;
-    border-color: #374151;
-  }
-
-  .task-item:hover {
-    border-color: #4b5563;
-  }
-
-  .task-item.is-completed {
-    background-color: #111827;
-  }
-
-  .task-title {
-    color: #f3f4f6;
-  }
-
-  .task-details {
-    background-color: #18202f;
-    border-top-color: #2e384d;
-  }
-
-  .detail-label {
-    color: #9ca3af;
-  }
-
-  .detail-content {
-    color: #e5e7eb;
-  }
-
-  .detail-content.empty {
-    color: #6b7280;
-  }
-
-  .task-meta {
-    color: #9ca3af;
-  }
-
-  .btn-delete {
-    border-color: #7f1d1d;
-    color: #f87171;
-  }
-
-  .btn-delete:hover {
-    background-color: #450a0a;
-  }
-}

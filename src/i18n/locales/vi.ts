@@ -27,4 +27,11 @@ export const vi = {
     createdAt: "Tạo lúc: {{date}}",
     deleteBtn: "Xóa công việc",
   },
+  theme: {
+    light: "Sáng",
+    dark: "Tối",
+    system: "Tự động",
+    tooltip: "Giao diện: {{mode}} (Bấm để đổi)",
+  },
 };
+

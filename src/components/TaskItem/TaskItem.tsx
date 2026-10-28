@@ -23,7 +23,7 @@ function TaskItem({ item, DeleteTask, setComplete }: Props) {
 
   return (
     <div className={`task-item ${item.completed ? "is-completed" : ""}`}>
-      {/* Phần thu gọn: Checkbox + Tiêu đề + Icon mở rộng */}
+      {/* Collapsed view: Checkbox + Title + Expand icon */}
       <div
         className="task-header"
         onClick={() => setIsExpanded((prev) => !prev)}
@@ -46,8 +46,9 @@ function TaskItem({ item, DeleteTask, setComplete }: Props) {
         </span>
       </div>
 
-      {/* Phần mở rộng: Chi tiết thông tin */}
+      {/* Expanded view: Detailed information */}
       {isExpanded && (
+
         <div className="task-details">
           <div className="detail-row">
             <span className="detail-label">{t("taskItem.descLabel")}</span>

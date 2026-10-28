@@ -7,7 +7,7 @@
 .task-form-heading {
   font-size: 16px;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-primary);
   margin: 0 0 14px 0;
 }
 
@@ -26,7 +26,7 @@
 .form-field label {
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--color-text-secondary);
 }
 
 .form-input,
@@ -36,23 +36,23 @@
   padding: 8px 10px;
   font-size: 13px;
   font-family: inherit;
-  color: #1f2937;
-  background-color: #ffffff;
-  border: 1px solid #d1d5db;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .form-input:focus,
 .form-textarea:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-focus);
 }
 
 .form-input.has-error,
 .form-textarea.has-error {
-  border-color: #ef4444;
+  border-color: var(--color-danger);
 }
 
 .form-textarea {
@@ -62,7 +62,7 @@
 
 .form-error {
   font-size: 12px;
-  color: #ef4444;
+  color: var(--color-danger);
   margin-top: 2px;
 }
 
@@ -71,8 +71,8 @@
   padding: 9px 14px;
   font-size: 13px;
   font-weight: 500;
-  color: #ffffff;
-  background-color: #2563eb;
+  color: var(--color-primary-fg);
+  background-color: var(--color-primary);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -80,32 +80,10 @@
 }
 
 .btn-submit:hover {
-  background-color: #1d4ed8;
+  background-color: var(--color-primary-hover);
 }
 
 .btn-submit:active {
-  background-color: #1e40af;
+  filter: brightness(0.9);
 }
 
-@media (prefers-color-scheme: dark) {
-  .task-form-heading {
-    color: #f3f4f6;
-  }
-
-  .form-field label {
-    color: #9ca3af;
-  }
-
-  .form-input,
-  .form-textarea {
-    background-color: #1f2937;
-    color: #f9fafb;
-    border-color: #374151;
-  }
-
-  .form-input:focus,
-  .form-textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
-  }
-}
